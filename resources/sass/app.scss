@@ -1,0 +1,73 @@
+
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+.navbar-laravel {
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+.custom-bullet {
+  h6 {
+    span::before {
+      width: 15px;
+      margin-right: 10px;
+      height: 100%;
+      text-align: center;
+      font-size: 16px;
+      display: inline-block;
+      content: "";
+    }
+    .calendar::before {
+      content: "\f073";
+    }
+    .clock::before {
+      content: "\f017";
+    }
+  }
+}
+
+.thought {
+  .thought-thumbtack {
+    height: 45px;
+    width: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    border-radius: 50%;
+    text-shadow: 2px 3px 4px rgba(0, 0, 0, 0.3);
+    font-size: 24px;
+    top: -20px;
+    left: -5px;
+    z-index: 1;
+  }
+  .card-title {
+    &:hover {
+      cursor: pointer;
+    }
+
+    &:hover {
+      .title .text-primary {
+        color: theme-color("success") !important;
+      }
+    }
+    .title {
+      .text-primary {
+        transition: ease 0.3s;
+      }
+      max-width: calc(100% - 15px);
+    }
+    .icon {
+      width: 15px;
+      height: 15px;
+      display: inline-block;
+    }
+  }
+}
