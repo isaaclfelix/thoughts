@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
-
-
 export default class ThoughtTitle extends Component {
   render() {
     return (
