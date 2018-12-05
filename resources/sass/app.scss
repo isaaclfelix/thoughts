@@ -54,12 +54,12 @@
     }
 
     &:hover {
-      .title .text-primary {
-        color: theme-color("success") !important;
+      .title .text-success {
+        color: theme-color("info") !important;
       }
     }
     .title {
-      .text-primary {
+      .text-success {
         transition: ease 0.3s;
       }
       max-width: calc(100% - 15px);
@@ -70,4 +70,32 @@
       display: inline-block;
     }
   }
+}
+
+.new-thought-fab {
+  width: 65px;
+  height: 65px;
+  bottom: 25px;
+  right: 25px;
+  z-index: 2;
+  border-radius: 50%;
+  font-size: 24px;
+  text-shadow: 2px 3px 4px rgba(0,0,0,0.5);
+}
+
+#emotion-tags-input-group {
+  .badge:hover {
+    cursor: pointer;
+  }
+}
+#emotion-tags-input {
+  flex-grow: 1;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.bg-thoughts-gradient {
+  @include thoughts-gradient();
 }

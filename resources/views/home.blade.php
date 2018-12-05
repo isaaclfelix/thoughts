@@ -9,7 +9,7 @@
         </div>
     </div>
 </div>
-<button type="button" class="btn btn-info new-thought-fab position-fixed text-warning shadow d-flex align-items-center justify-content-center" style="width: 65px; height: 65px; bottom: 25px; right: 25px; z-index: 2; border-radius: 50%; font-size: 24px; text-shadow: 2px 3px 4px rgba(0,0,0,0.5);">
+<button data-toggle="modal" data-target="#new-thought-modal" id="new-thought-fab" type="button" class="btn btn-info new-thought-fab position-fixed text-warning shadow d-flex align-items-center justify-content-center">
     <i class="fas fa-brain"></i>
 </button>
 @endsection

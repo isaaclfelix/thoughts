@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 export default class ThoughtTitle extends Component {
   render() {
     return (
-      <div className="card-body bg-primary text-white d-sm-flex align-items-center">
+      <div className="card-body bg-thoughts-gradient text-white d-sm-flex align-items-center">
         <h4 className="card-title font-weight mb-sm-0">
           {this.props.thoughtData.name}
         </h4>

@@ -13,11 +13,20 @@
         <style>
             html, body {
                 background-color: #fff;
+                background-color: turquoise;
                 color: #636b6f;
+                color: #FFF;
                 font-family: 'Nunito', sans-serif;
                 font-weight: 200;
                 height: 100vh;
                 margin: 0;
+
+                /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#40e0cf+0,7db9e8+100 */
+                background: #40e0cf;
+                background: -moz-linear-gradient(left, #40e0cf 0%, #7db9e8 100%);
+                background: -webkit-linear-gradient(left, #40e0cf 0%,#7db9e8 100%);
+                background: linear-gradient(to right, #40e0cf 0%,#7db9e8 100%);
+                filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#40e0cf', endColorstr='#7db9e8',GradientType=1 );
             }
 
             .full-height {
@@ -50,6 +59,7 @@
 
             .links > a {
                 color: #636b6f;
+                color: #FFF;
                 padding: 0 25px;
                 font-size: 13px;
                 font-weight: 600;

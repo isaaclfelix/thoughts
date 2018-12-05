@@ -14,3 +14,5 @@ require('./bootstrap');
  */
 
 require('./components/Thoughts');
+
+require('./components/NewThoughtModal');

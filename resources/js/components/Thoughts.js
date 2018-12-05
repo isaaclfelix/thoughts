@@ -19,7 +19,9 @@ export default class Thoughts extends Component {
   }
   getThoughts() {
     const thoughts = [];
-    thoughts.push(<Thought thoughtData={this.getThoughtData()} />);
+    let thoughtsCount = 0;
+    thoughts.push(<Thought key={thoughtsCount} thoughtData={this.getThoughtData()} />);
+    thoughtsCount++;
     return thoughts;
   }
   componentDidMount() {

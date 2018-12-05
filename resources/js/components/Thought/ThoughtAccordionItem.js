@@ -7,7 +7,7 @@ export default class ThoughtAccordionItem extends Component {
       <li className="list-group-item pt-4 pb-4">
         <h5 className="mb-0 d-flex align-items-center flex-wrap card-title" data-toggle="collapse" data-target={`#${this.props.boxID}`}>
           <div className="title mr-1">
-            <span className="mr-1 text-primary">{this.props.title}</span>
+            <span className="mr-1 text-success">{this.props.title}</span>
             <small className="text-muted">{this.props.subtitle}</small>
           </div>
           <div className="ml-auto icon"><i className="fas fa-chevron-up"></i></div>
