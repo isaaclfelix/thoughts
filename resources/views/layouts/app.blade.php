@@ -23,7 +23,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-dark bg-dark">
             <div class="container">
-                <a href="{{ url('/') }}" class="navbar-brand d-flex align-items-center text-uppercase">
+                <a href="{{ url('/') }}" class="navbar-brand d-flex align-items-center">
                     <div class="mr-2 text-warning shadow d-flex align-items-center justify-content-center" style="font-size: 24px; text-shadow: 2px 3px 4px rgba(0,0,0,0.5);">
                         <i class="fas fa-brain"></i>
                     </div>
