@@ -17,15 +17,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/thoughts', 'ThoughtController@index');
-
-Route::get('/thoughts/{thought_id}', function (Request $request) {
-    // Get from the DB
-
-    // Put data in array
-    $response = array(
-        'test' => 'hola'
-    );
-    // Return encoded response
-    return json_encode($response);
-});
+Route::get('/{user_id}/thoughts', 'ThoughtController@index');

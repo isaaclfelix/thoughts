@@ -16,31 +16,35 @@ class ThoughtController extends Controller
   {
     // Get from the DB
     $thoughts = \App\Thought::all();
+    return $thoughts->toJson();
+  }
 
-    $response = array();
-    foreach($thoughts as $thought) {
-      $response[] = array(
-        'id' => '',
-        'name' => ''
-      );
-    }
-
-    // Put data in array
-    $response = array(
-      'test' => 'hola'
-    );
-    // Return encoded response
-    //return json_encode($response);
-
-    $query = http_build_query([
-        'client_id' => 'client-id',
-        'redirect_uri' => 'http://thoughts.test/oauth/authorize',
-        'response_type' => 'code',
-        'scope' => '',
+  /**
+   * Bring all of the thoughts available
+   *
+   * @return \Illuminate\Http\Response
+   */
+  public function create(Request $request)
+  {
+    //
+    $request->validate([
+      'author' => 'bail|required|integer',
+      'situation' => 'bail|required|string',
+      'automatedThoughts' => 'bail|required|string',
+      'actions' => 'bail|required|string',
+      'emotions' => 'bail|required|string'
     ]);
 
-    return redirect(
-      'http://thoughts.test/oauth/authorize?'.$query
-    );
+    //
+    $thought = new \App\Thought();
+    $thought->author = $request->author;
+    $thought->situation = $request->situation;
+    $thought->automated_thoughts = $request->automatedThoughts;
+    $thought->actions = $request->actions;
+    $thought->emotions = $request->emotions;
+
+    $thought->save();
+
+    return redirect()->route('home');
   }
 }

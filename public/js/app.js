@@ -13983,7 +13983,7 @@ module.exports = checkPropTypes;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(15);
-module.exports = __webpack_require__(54);
+module.exports = __webpack_require__(56);
 
 
 /***/ }),
@@ -14007,7 +14007,7 @@ __webpack_require__(16);
 
 __webpack_require__(40);
 
-__webpack_require__(59);
+__webpack_require__(54);
 
 /***/ }),
 /* 16 */
@@ -36268,62 +36268,32 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var Thoughts = function (_Component) {
   _inherits(Thoughts, _Component);
 
-  function Thoughts(props) {
+  function Thoughts() {
     _classCallCheck(this, Thoughts);
 
-    var _this = _possibleConstructorReturn(this, (Thoughts.__proto__ || Object.getPrototypeOf(Thoughts)).call(this, props));
-
-    _this.state = {
-      thoughts: []
-    };
-    return _this;
+    return _possibleConstructorReturn(this, (Thoughts.__proto__ || Object.getPrototypeOf(Thoughts)).apply(this, arguments));
   }
 
   _createClass(Thoughts, [{
-    key: 'getThoughtData',
-    value: function getThoughtData() {
-      return {
-        name: "Thought #1",
-        date: "Friday November 31st, 2018",
-        time: "18:00:00"
-      };
-    }
-  }, {
-    key: 'getThoughts',
-    value: function getThoughts() {
-      var thoughts = [];
-      var thoughtsCount = 0;
-      thoughts.push(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Thought___["a" /* default */], { key: thoughtsCount, thoughtData: this.getThoughtData() }));
-      thoughtsCount++;
-      return thoughts;
-    }
-  }, {
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      // fetch('').then((response) => {
-      //   return JSON.parse(response)
-      // })
-      // .then((parsedResponse) => {
-      //   this.setState({
-      //     thoughts: parsedResponse
-      //   });
-      // })
-      // .error((error) => {
-      //   console.log("Something went wrong");
-      // });
-
-      var parsedResponse = [];
-      this.setState({
-        thoughts: parsedResponse
-      });
-    }
-  }, {
     key: 'render',
     value: function render() {
       return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
         { className: 'pt-4 pb-4 row thoughts' },
-        this.getThoughts()
+        JSON.parse(this.props.thoughts).map(function (thought, key) {
+          var thoughtDateTime = thought.updated_at.split(' ');
+          // Build data
+          var thoughtData = {
+            id: thought.id,
+            date: thoughtDateTime[0],
+            time: thoughtDateTime[1],
+            situation: thought.situation,
+            automatedThoughts: thought.automated_thoughts,
+            actions: thought.actions,
+            emotions: thought.emotions
+          };
+          return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__Thought___["a" /* default */], { key: key, thoughtData: thoughtData });
+        })
       );
     }
   }]);
@@ -36335,7 +36305,9 @@ var Thoughts = function (_Component) {
 
 
 if (document.getElementById('thoughts')) {
-  __WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(Thoughts, null), document.getElementById('thoughts'));
+  var thoughtsContainer = document.getElementById('thoughts');
+  var thoughts = thoughtsContainer.getAttribute("thoughts");
+  __WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(Thoughts, { thoughts: thoughts }), thoughtsContainer);
 }
 
 /***/ }),
@@ -59081,12 +59053,11 @@ var Thought = function (_Component) {
       return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
         { className: 'col-12 col-xl-6 mb-5 thought' },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__ThoughtThumbtack__["a" /* default */], null),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'div',
           { className: 'card shadow-sm' },
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__ThoughtTitle__["a" /* default */], { thoughtData: this.props.thoughtData }),
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__ThoughtAccordion__["a" /* default */], null)
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__ThoughtAccordion__["a" /* default */], { thoughtData: this.props.thoughtData })
         )
       );
     }
@@ -59140,7 +59111,7 @@ var ThoughtThumbtack = function (_Component) {
   return ThoughtThumbtack;
 }(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
 
-/* harmony default export */ __webpack_exports__["a"] = (ThoughtThumbtack);
+/* unused harmony default export */ var _unused_webpack_default_export = (ThoughtThumbtack);
 
 /***/ }),
 /* 50 */
@@ -59178,13 +59149,8 @@ var ThoughtTitle = function (_Component) {
         'div',
         { className: 'card-body bg-thoughts-gradient text-white d-sm-flex align-items-center' },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'h4',
-          { className: 'card-title font-weight mb-sm-0' },
-          this.props.thoughtData.name
-        ),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'ul',
-          { className: 'text-white list-unstyled mb-0 d-sm-flex ml-sm-auto align-items-center' },
+          { className: 'text-white list-unstyled mb-0 d-sm-flex align-items-center' },
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'li',
             { className: 'custom-bullet mr-3' },
@@ -59254,41 +59220,47 @@ var ThoughtAccordion = function (_Component) {
     value: function render() {
       return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'ul',
-        { className: 'list-group list-group-flush accordion', id: 'thought-accordion-' },
+        { className: 'list-group list-group-flush accordion', id: 'thought-accordion-' + this.props.thoughtData.id },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           __WEBPACK_IMPORTED_MODULE_2__ThoughtAccordionItem__["a" /* default */],
-          { parent: '#thought-accordion-', boxID: 'situation-', hide: 'show', title: 'Situation', subtitle: 'What was happening?' },
+          { parent: '#thought-accordion-' + this.props.thoughtData.id, boxID: 'situation-' + this.props.thoughtData.id, chevron: 'fa-chevron-up', hide: 'show', title: 'Situation', subtitle: 'What was happening?' },
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'p',
             { className: 'mb-0' },
-            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur dolore eligendi similique beatae reprehenderit exercitationem culpa ab autem delectus debitis.'
+            this.props.thoughtData.situation
           )
         ),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           __WEBPACK_IMPORTED_MODULE_2__ThoughtAccordionItem__["a" /* default */],
-          { parent: '#thought-accordion-', boxID: 'automaticThoughts-', title: 'Automatic Thoughts', subtitle: 'What was I thinking?' },
+          { parent: '#thought-accordion-' + this.props.thoughtData.id, boxID: 'automaticThoughts-' + this.props.thoughtData.id, title: 'Automated Thoughts', subtitle: 'What was I thinking?' },
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'p',
             { className: 'mb-0' },
-            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur dolore eligendi similique beatae reprehenderit exercitationem culpa ab autem delectus debitis.'
+            this.props.thoughtData.automatedThoughts
           )
         ),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           __WEBPACK_IMPORTED_MODULE_2__ThoughtAccordionItem__["a" /* default */],
-          { parent: '#thought-accordion-', boxID: 'actions-', title: 'Actions', subtitle: 'What did I do afterwards?' },
+          { parent: '#thought-accordion-' + this.props.thoughtData.id, boxID: 'actions-' + this.props.thoughtData.id, title: 'Actions', subtitle: 'What did I do afterwards?' },
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'p',
             { className: 'mb-0' },
-            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur dolore eligendi similique beatae reprehenderit exercitationem culpa ab autem delectus debitis.'
+            this.props.thoughtData.actions
           )
         ),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           __WEBPACK_IMPORTED_MODULE_2__ThoughtAccordionItem__["a" /* default */],
-          { parent: '#thought-accordion-', boxID: 'emotions-', title: 'Emotions', subtitle: 'How did I feel before & after?' },
+          { parent: '#thought-accordion-' + this.props.thoughtData.id, boxID: 'emotions-' + this.props.thoughtData.id, title: 'Emotions', subtitle: 'How did I feel before & after?' },
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'ul',
-            { className: 'mb-0 row list-unstyled' },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__ThoughtCardEmotionComparison__["a" /* default */], { emotionName: 'Anger', adaptativeResponse: '50', result: '50' })
+            'p',
+            { className: 'mb-0' },
+            this.props.thoughtData.emotions.split(',').map(function (emotion, key) {
+              return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'span',
+                { key: key, className: 'badge badge-primary mt-1 mb-1 mr-2' },
+                emotion
+              );
+            })
           )
         )
       );
@@ -59323,13 +59295,35 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var ThoughtAccordionItem = function (_Component) {
   _inherits(ThoughtAccordionItem, _Component);
 
-  function ThoughtAccordionItem() {
+  function ThoughtAccordionItem(props) {
     _classCallCheck(this, ThoughtAccordionItem);
 
-    return _possibleConstructorReturn(this, (ThoughtAccordionItem.__proto__ || Object.getPrototypeOf(ThoughtAccordionItem)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (ThoughtAccordionItem.__proto__ || Object.getPrototypeOf(ThoughtAccordionItem)).call(this, props));
+
+    _this.state = {
+      chevron: _this.props.chevron || 'fa-chevron-down'
+    };
+    return _this;
   }
 
   _createClass(ThoughtAccordionItem, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      var currentItem = this;
+      $("#" + this.props.boxID).on('show.bs.collapse', function () {
+        // Chevron Up
+        currentItem.setState({
+          chevron: 'fa-chevron-up'
+        });
+      });
+      $("#" + this.props.boxID).on('hide.bs.collapse', function () {
+        // Chevron Down
+        currentItem.setState({
+          chevron: 'fa-chevron-down'
+        });
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
       return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -59355,7 +59349,7 @@ var ThoughtAccordionItem = function (_Component) {
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'div',
             { className: 'ml-auto icon' },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fas fa-chevron-up' })
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fas ' + this.state.chevron })
           )
         ),
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -59469,20 +59463,10 @@ var ThoughtCardEmotionComparison = function (_Component) {
   return ThoughtCardEmotionComparison;
 }(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
 
-/* harmony default export */ __webpack_exports__["a"] = (ThoughtCardEmotionComparison);
+/* unused harmony default export */ var _unused_webpack_default_export = (ThoughtCardEmotionComparison);
 
 /***/ }),
 /* 54 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 55 */,
-/* 56 */,
-/* 57 */,
-/* 58 */,
-/* 59 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -59491,7 +59475,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_dom___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_react_dom__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__NewThoughtModal_Emotion__ = __webpack_require__(60);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__NewThoughtModal_Emotion__ = __webpack_require__(55);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -59514,7 +59498,8 @@ var NewThoughtModal = function (_Component) {
     var _this = _possibleConstructorReturn(this, (NewThoughtModal.__proto__ || Object.getPrototypeOf(NewThoughtModal)).call(this, props));
 
     _this.state = {
-      emotionTags: []
+      emotionTags: [],
+      emotions: []
     };
     return _this;
   }
@@ -59545,6 +59530,12 @@ var NewThoughtModal = function (_Component) {
           // Save array with new emotion on state
           _this2.setState({
             emotionTags: emotionTags
+          });
+          //
+          var emotions = _this2.state.emotions;
+          emotions.push(emotionTagsInput.val().slice(0, -1));
+          _this2.setState({
+            emotions: emotions
           });
           // Empty input
           emotionTagsInput.val("");
@@ -59592,18 +59583,9 @@ var NewThoughtModal = function (_Component) {
               { className: 'modal-body' },
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'form',
-                { action: '' },
+                { action: this.props.route },
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'hidden', name: '_token', value: this.props.csrf_token }),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'div',
-                  { className: 'form-group' },
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'label',
-                    null,
-                    'Name'
-                  ),
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { className: 'form-control', type: 'text', name: 'name', placeholder: 'Tought #1' })
-                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'hidden', name: 'author', value: this.props.author }),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                   'div',
                   { className: 'form-group' },
@@ -59622,7 +59604,7 @@ var NewThoughtModal = function (_Component) {
                     null,
                     'Automatic Thoughts'
                   ),
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('textarea', { className: 'form-control', type: 'text', name: 'automaticToughts', placeholder: 'A brief description of what you were thinking...' })
+                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('textarea', { className: 'form-control', type: 'text', name: 'automatedThoughts', placeholder: 'A brief description of what you were thinking...' })
                 ),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                   'div',
@@ -59648,6 +59630,7 @@ var NewThoughtModal = function (_Component) {
                     this.state.emotionTags.map(function (emotion) {
                       return emotion;
                     }),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'hidden', name: 'emotions', value: this.state.emotions }),
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { id: 'emotion-tags-input', type: 'text', className: 'd-inline-flex border-0', placeholder: 'Please use one word per emotion' })
                   )
                 ),
@@ -59669,14 +59652,16 @@ var NewThoughtModal = function (_Component) {
 
 /* harmony default export */ __webpack_exports__["default"] = (NewThoughtModal);
 
-
-if (document.getElementById('new-thought-modal-window')) {
+var modal_window = document.getElementById('new-thought-modal-window');
+if (modal_window) {
   var csrf_token = $('meta[name=csrf-token]').attr("content");
-  __WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(NewThoughtModal, { csrf_token: csrf_token }), document.getElementById('new-thought-modal-window'));
+  var route = modal_window.getAttribute('route');
+  var author = modal_window.getAttribute('author');
+  __WEBPACK_IMPORTED_MODULE_1_react_dom___default.a.render(__WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(NewThoughtModal, { author: author, route: route, csrf_token: csrf_token }), document.getElementById('new-thought-modal-window'));
 }
 
 /***/ }),
-/* 60 */
+/* 55 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -59719,6 +59704,12 @@ var Emotion = function (_Component) {
 }(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
 
 /* harmony default export */ __webpack_exports__["a"] = (Emotion);
+
+/***/ }),
+/* 56 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);

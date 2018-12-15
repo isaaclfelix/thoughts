@@ -7,7 +7,8 @@ export default class NewThoughtModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      emotionTags: []
+      emotionTags: [],
+      emotions: []
     }
   }
   componentDidMount() {
@@ -33,6 +34,12 @@ export default class NewThoughtModal extends Component {
         this.setState({
           emotionTags: emotionTags
         });
+        //
+        const emotions = this.state.emotions;
+        emotions.push(emotionTagsInput.val().slice(0, -1));
+        this.setState({
+          emotions: emotions
+        });
         // Empty input
         emotionTagsInput.val("");
         // Focus input
@@ -57,19 +64,16 @@ export default class NewThoughtModal extends Component {
               </button>
             </div>
             <div className="modal-body">
-              <form action="">
+              <form action={this.props.route}>
                 <input type="hidden" name="_token" value={this.props.csrf_token} />
-                <div className="form-group">
-                  <label>Name</label>
-                  <input className="form-control" type="text" name="name" placeholder="Tought #1" />
-                </div>
+                <input type="hidden" name="author" value={this.props.author} />
                 <div className="form-group">
                   <label>Situation</label>
                   <textarea className="form-control" type="text" name="situation" placeholder="A brief description of the situation..." />
                 </div>
                 <div className="form-group">
                   <label>Automatic Thoughts</label>
-                  <textarea className="form-control" type="text" name="automaticToughts" placeholder="A brief description of what you were thinking..." />
+                  <textarea className="form-control" type="text" name="automatedThoughts" placeholder="A brief description of what you were thinking..." />
                 </div>
                 <div className="form-group">
                   <label>Actions</label>
@@ -81,6 +85,7 @@ export default class NewThoughtModal extends Component {
                     {this.state.emotionTags.map((emotion) => {
                       return emotion;
                     })}
+                    <input type="hidden" name="emotions" value={this.state.emotions} />
                     <input id="emotion-tags-input" type="text" className="d-inline-flex border-0" placeholder="Please use one word per emotion" />
                   </div>
                 </div>
@@ -93,8 +98,10 @@ export default class NewThoughtModal extends Component {
     );
   }
 }
-
-if (document.getElementById('new-thought-modal-window')) {
+const modal_window = document.getElementById('new-thought-modal-window');
+if (modal_window) {
   const csrf_token = $('meta[name=csrf-token]').attr("content");
-  ReactDOM.render(<NewThoughtModal csrf_token={csrf_token} />, document.getElementById('new-thought-modal-window'));
+  const route = modal_window.getAttribute('route');
+  const author = modal_window.getAttribute('author');
+  ReactDOM.render(<NewThoughtModal author={author} route={route} csrf_token={csrf_token} />, document.getElementById('new-thought-modal-window'));
 }

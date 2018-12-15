@@ -9,10 +9,12 @@ export default class Thought extends Component {
   render() {
     return(
       <div className="col-12 col-xl-6 mb-5 thought">
+        {/*
         <ThoughtThumbtack />
+        */ }
         <div className="card shadow-sm">
           <ThoughtTitle thoughtData={this.props.thoughtData}  />
-          <ThoughtAccordion />
+          <ThoughtAccordion thoughtData={this.props.thoughtData} />
         </div>
       </div>
     );

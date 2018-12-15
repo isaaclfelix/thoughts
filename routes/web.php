@@ -15,6 +15,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/new', 'ThoughtController@create')->name('new');
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
